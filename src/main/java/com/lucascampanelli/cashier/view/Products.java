@@ -147,8 +147,6 @@ public class Products extends JFrame{
             
         });
         
-        Frame.getFrames();
-        
         canvas.add(title);
         canvas.add(exitButton);
         canvas.add(header);
