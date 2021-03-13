@@ -3,6 +3,7 @@ package com.lucascampanelli.cashier.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import com.lucascampanelli.cashier.controller.ControllerLogin;
 
 /**
  *
@@ -62,25 +63,6 @@ public class Login extends JFrame {
         senha = new JPasswordField("");
         senha.setBounds(515, 305, 250, 30);
         
-        loginButton = new JButton("Entrar");
-        loginButton.setBounds(590, 360, 100, 42);
-        loginButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        loginButton.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
-        loginButton.setFont(new java.awt.Font(fontText, 1, 17));
-        loginButton.setBackground(new java.awt.Color(38, 105, 212));
-        loginButton.setForeground(new java.awt.Color(255, 255, 255));
-        loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        loginButton.setBorderPainted(false);
-        loginButton.setFocusPainted(false);
-        loginButton.addActionListener(new ActionListener(){
-            
-            @Override
-            public void actionPerformed(ActionEvent e){
-                System.exit(0);
-            }
-            
-        });
-        
         header = new JPanel();
         header.setBounds(0, 0, 1280, 55);
         header.setBackground(new java.awt.Color(255, 206, 31));
@@ -108,9 +90,34 @@ public class Login extends JFrame {
         canvas.add(login);
         canvas.add(senhaLabel);
         canvas.add(senha);
-        canvas.add(loginButton);
         canvas.add(exitButton);
         canvas.add(header);
+        
+        loginButton = new JButton("Entrar");
+        loginButton.setBounds(590, 360, 100, 42);
+        loginButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        loginButton.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        loginButton.setFont(new java.awt.Font(fontText, 1, 17));
+        loginButton.setBackground(new java.awt.Color(38, 105, 212));
+        loginButton.setForeground(new java.awt.Color(255, 255, 255));
+        loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        loginButton.setBorderPainted(false);
+        loginButton.setFocusPainted(false);
+        loginButton.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e){
+                ControllerLogin controllerLogin = new ControllerLogin();
+                if(controllerLogin.logar(login.getText(), senha.getText())){
+                    Principal principal = new Principal();
+                    principal.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                    setVisible(false);
+                }
+            }
+            
+        });
+        
+        canvas.add(loginButton);        
         
         pack();
         setSize(1280, 720);
@@ -121,6 +128,7 @@ public class Login extends JFrame {
     
     public static void main(String[] args){
         Login login = new Login();
+        
         login.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
     

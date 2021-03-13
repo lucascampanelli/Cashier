@@ -3,7 +3,7 @@ package com.lucascampanelli.cashier.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import com.lucascampanelli.cashier.DAO.factory.Connect;
 /**
  *
  * @author lucas
@@ -142,13 +142,32 @@ public class Products extends JFrame{
             
             @Override
             public void actionPerformed(ActionEvent e){
+                Connect.desconectar();
                 System.exit(0);
+            }
+            
+        });
+        
+        addButton = new JButton("Adicionar");
+        addButton.setBounds(150, 120, 115, 42);
+        addButton.setFont(new java.awt.Font(fontText, 1, 17));
+        addButton.setBackground(new java.awt.Color(143, 144, 146));
+        addButton.setForeground(new java.awt.Color(255, 255, 255));
+        addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        addButton.setBorderPainted(false);
+        addButton.setFocusPainted(false);
+        addButton.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e){
+                
             }
             
         });
         
         canvas.add(title);
         canvas.add(exitButton);
+        canvas.add(addButton);
         canvas.add(header);
         canvas.add(caixaList);
         canvas.add(produtosList);
