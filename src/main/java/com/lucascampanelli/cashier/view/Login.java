@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import com.lucascampanelli.cashier.controller.ControllerLogin;
+import com.lucascampanelli.cashier.DAO.factory.Connect;
 
 /**
  *
@@ -79,6 +80,12 @@ public class Login extends JFrame {
             
             @Override
             public void actionPerformed(ActionEvent e){
+                if(Connect.exists())
+                    Connect.desconectar();
+                
+                else
+                    System.out.println("Sem conexão criada");
+                
                 System.exit(0);
             }
             
@@ -109,6 +116,7 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent e){
                 ControllerLogin controllerLogin = new ControllerLogin();
                 if(controllerLogin.logar(login.getText(), senha.getText())){
+                    Connect.conectar();
                     Principal principal = new Principal();
                     principal.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                     setVisible(false);

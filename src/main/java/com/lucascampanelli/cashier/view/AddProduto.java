@@ -4,14 +4,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import com.lucascampanelli.cashier.DAO.factory.Connect;
+import com.lucascampanelli.cashier.util.NumberFieldFormat;
+import com.lucascampanelli.cashier.util.CurrencyFieldFormat;
+import com.lucascampanelli.cashier.controller.ControllerProdutos;
+
 /**
  *
  * @author lucas
  */
-public class Products extends JFrame{
+public class AddProduto extends JFrame {
     
-    JLabel title, caixaList, produtosList, financeiroList, relatoriosList, vendasList,
-           produtosTitle;
+    JLabel title, screenTitleLabel, caixaList, produtosList, financeiroList, relatoriosList, vendasList,
+           produtosTitle, nomeLabel, marcaLabel, precoLabel, quantLabel, codBarrasLabel;
+    
+    JTextField nomeField, marcaField, codBarrasField, precoField;
+    
+    JFormattedTextField quantField;
     
     JComboBox corLista;
     
@@ -19,12 +27,16 @@ public class Products extends JFrame{
     
     JButton exitButton, addButton;
     
-    String fontTitle, fontText, colorYellowLight,
+    String screenTitle, fontTitle, fontText, colorYellowLight,
            colorBlueLight, colorYellowDark, colorBlueDark, colorGray;
     
-    public Products(){
-        super("Produtos - Cashier");
+    NumberFieldFormat numberFormat = new NumberFieldFormat();
+    CurrencyFieldFormat currencyFormat = new CurrencyFieldFormat();
+    
+    public AddProduto(){
+        super("Adicionar produto - Cashier");
         
+        screenTitle = "Adicionar produto";
         fontTitle = "Impact";
         fontText = "Yu Gothic UI";
         colorYellowLight = "255, 206, 31";
@@ -37,18 +49,65 @@ public class Products extends JFrame{
         
         setLayout(null);
         
+        screenTitleLabel = new JLabel(screenTitle);
+        screenTitleLabel.setBounds(150, 80, 200, 25);
+        screenTitleLabel.setForeground(new java.awt.Color(0, 0, 0));
+        screenTitleLabel.setFont(new java.awt.Font(fontText, 1, 22));
+        
+        // Campos para cadastro
+        
+        nomeLabel = new JLabel("Nome");
+        nomeLabel.setBounds(152, 140, 100, 15);
+        
+        nomeField = new JTextField("");
+        nomeField.setBounds(150, 160, 250, 30);
+        
+        marcaLabel = new JLabel("Marca");
+        marcaLabel.setBounds(502, 140, 100, 15);
+        
+        marcaField = new JTextField("");
+        marcaField.setBounds(500, 160, 250, 30);
+        
+        precoLabel = new JLabel("Preço (R$)");
+        precoLabel.setBounds(152, 200, 100, 15);
+        
+        //precoField = new JFormattedTextField(currencyFormat.getFormatter());
+        precoField = new JTextField("");
+        precoField.setBounds(150, 220, 250, 30);
+        //precoField.setValue(0.00);
+        
+        quantLabel = new JLabel("Quantidade (Unidades)");
+        quantLabel.setBounds(502, 200, 120, 15);
+        
+        quantField = new JFormattedTextField(numberFormat.getFormatter());
+        quantField.setBounds(500, 220, 250, 30);
+        
+        codBarrasLabel = new JLabel("Código de barras");
+        codBarrasLabel.setBounds(152, 260, 100, 15);
+        
+        codBarrasField = new JTextField("");
+        codBarrasField.setBounds(150, 280, 250, 30);
+        
+        // ------------------------
+        
+        // Cabeçalho
+        
         header = new JPanel();
         header.setBounds(0, 0, 1280, 55);
         header.setBackground(new java.awt.Color(255, 206, 31));
-        
-        navbar = new JPanel();
-        navbar.setBounds(0, 0, 120, 720);
-        navbar.setBackground(new java.awt.Color(38, 105, 212));
         
         title = new JLabel("Cashier");
         title.setBounds(20, 10, 120, 30);
         title.setForeground(new java.awt.Color(255, 255, 255));
         title.setFont(new java.awt.Font(fontTitle, 1, 28));
+        
+        // ------------------------
+        
+        // Barra de navegação
+        
+        navbar = new JPanel();
+        navbar.setBounds(0, 0, 120, 720);
+        navbar.setBackground(new java.awt.Color(38, 105, 212));
         
         caixaList = new JLabel("- Caixa");
         caixaList.setBounds(15, 72, 100, 15);
@@ -149,7 +208,7 @@ public class Products extends JFrame{
         });
         
         addButton = new JButton("Adicionar");
-        addButton.setBounds(150, 120, 115, 42);
+        addButton.setBounds(583, 400, 115, 42);
         addButton.setFont(new java.awt.Font(fontText, 1, 17));
         addButton.setBackground(new java.awt.Color(143, 144, 146));
         addButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -160,14 +219,32 @@ public class Products extends JFrame{
             
             @Override
             public void actionPerformed(ActionEvent e){
-                AddProduto adicionar = new AddProduto();
-                adicionar.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                setVisible(false);
+                ControllerProdutos controlador = new ControllerProdutos();
+                controlador.inserirProduto(
+                        nomeField.getText(),
+                        marcaField.getText(),
+                        codBarrasField.getText(),
+                        Integer.parseInt(quantField.getText().trim()),
+                        Double.parseDouble(precoField.getText())
+                );
             }
             
         });
         
+        // ------------------------
+        
         canvas.add(title);
+        canvas.add(screenTitleLabel);
+        canvas.add(nomeLabel);
+        canvas.add(nomeField);
+        canvas.add(marcaLabel);
+        canvas.add(marcaField);
+        canvas.add(precoLabel);
+        canvas.add(precoField);
+        canvas.add(quantLabel);
+        canvas.add(quantField);
+        canvas.add(codBarrasLabel);
+        canvas.add(codBarrasField);
         canvas.add(exitButton);
         canvas.add(addButton);
         canvas.add(header);
@@ -186,7 +263,7 @@ public class Products extends JFrame{
     }
     
     public static void main(String[] args){
-        Products produtos = new Products();
+        AddProduto adicionar = new AddProduto();
     }
     
 }

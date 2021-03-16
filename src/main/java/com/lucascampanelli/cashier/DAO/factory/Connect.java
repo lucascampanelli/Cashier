@@ -3,6 +3,7 @@ package com.lucascampanelli.cashier.DAO.factory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -36,6 +37,21 @@ public class Connect {
         catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+    
+    public static Statement getStatement(){
+        try{
+            Statement statement = Connect.conn.createStatement();
+            return statement;
+        }
+        catch(SQLException e){
+            System.out.println("Ocorreu um erro ao criar o statement. Erro: "+e);
+        }
+        return null;
+    }
+    
+    public static boolean exists(){
+        return Connect.conn != null;
     }
     
 }
