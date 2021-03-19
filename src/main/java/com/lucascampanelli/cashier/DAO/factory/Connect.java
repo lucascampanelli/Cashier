@@ -2,6 +2,7 @@ package com.lucascampanelli.cashier.DAO.factory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -11,7 +12,7 @@ import java.sql.Statement;
  */
 public class Connect {
     
-    private static String url = "jdbc:sqlite:Cashier.db";
+    private static final String url = "jdbc:sqlite:Cashier.db";
     private static Connection conn = null;
     
     public static void conectar(){
@@ -48,6 +49,17 @@ public class Connect {
             System.out.println("Ocorreu um erro ao criar o statement. Erro: "+e);
         }
         return null;
+    }
+    
+    public static PreparedStatement getPreparedStatement(String sqlQuery){
+        try{
+            PreparedStatement preparedStatement = Connect.conn.prepareStatement(sqlQuery);
+            return preparedStatement;
+        }
+        catch(SQLException e){
+            System.out.println("Ocorreu um erro ao criar o prepared statement. Erro: "+e);
+            return null;
+        }
     }
     
     public static boolean exists(){

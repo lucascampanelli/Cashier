@@ -4,27 +4,39 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import com.lucascampanelli.cashier.DAO.factory.Connect;
+import javax.swing.table.DefaultTableModel;
+import com.lucascampanelli.cashier.controller.ControllerProdutos;
+
 /**
  *
  * @author lucas
  */
 public class Products extends JFrame{
     
-    JLabel title, caixaList, produtosList, financeiroList, relatoriosList, vendasList,
+    JLabel title, screenTitleLabel, caixaList, produtosList, financeiroList, relatoriosList, vendasList,
            produtosTitle;
     
     JComboBox corLista;
     
-    JPanel header, navbar;
+    DefaultTableModel model;
+    
+    JPanel header, navbar, screenPanel;
+    
+    JScrollPane scrollPane;
+    
+    JTable produtos;
     
     JButton exitButton, addButton;
     
-    String fontTitle, fontText, colorYellowLight,
+    String screenTitle, fontTitle, fontText, colorYellowLight,
            colorBlueLight, colorYellowDark, colorBlueDark, colorGray;
+    
+    ControllerProdutos controlador = new ControllerProdutos();
     
     public Products(){
         super("Produtos - Cashier");
         
+        screenTitle = "Produtos";
         fontTitle = "Impact";
         fontText = "Yu Gothic UI";
         colorYellowLight = "255, 206, 31";
@@ -36,6 +48,15 @@ public class Products extends JFrame{
         Container canvas = getContentPane();
         
         setLayout(null);
+        
+        screenPanel = new JPanel();
+        screenPanel.setBounds(120, 200, 1160, 720);
+        canvas.add(screenPanel);
+        
+        screenTitleLabel = new JLabel(screenTitle);
+        screenTitleLabel.setBounds(150, 80, 200, 25);
+        screenTitleLabel.setForeground(new java.awt.Color(0, 0, 0));
+        screenTitleLabel.setFont(new java.awt.Font(fontText, 1, 22));
         
         header = new JPanel();
         header.setBounds(0, 0, 1280, 55);
@@ -49,6 +70,28 @@ public class Products extends JFrame{
         title.setBounds(20, 10, 120, 30);
         title.setForeground(new java.awt.Color(255, 255, 255));
         title.setFont(new java.awt.Font(fontTitle, 1, 28));
+        
+        produtos = new JTable(){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        produtos.setModel(controlador.listarProduto());
+        produtos.setBounds(150, 600, 800, 300);
+        produtos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        for(int i = 0; i < 9; i++){
+            if(i == 0)
+                produtos.getColumnModel().getColumn(i).setPreferredWidth(50);
+            else
+                produtos.getColumnModel().getColumn(i).setPreferredWidth(129);
+        }
+        produtos.getTableHeader().setResizingAllowed(false);;
+        screenPanel.add(produtos);
+        
+        scrollPane = new JScrollPane(produtos);
+        scrollPane.setPreferredSize(new Dimension(1100,400));
+        screenPanel.add(scrollPane);
         
         caixaList = new JLabel("- Caixa");
         caixaList.setBounds(15, 72, 100, 15);
@@ -167,6 +210,7 @@ public class Products extends JFrame{
             
         });
         
+        canvas.add(screenTitleLabel);
         canvas.add(title);
         canvas.add(exitButton);
         canvas.add(addButton);

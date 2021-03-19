@@ -10,8 +10,8 @@ import java.awt.event.*;
  */
 public class Principal extends JFrame{
     
-    JLabel title, caixaList, produtosList, financeiroList, relatoriosList, vendasList,
-           produtosTitle;
+    JLabel title, screenTitle, caixaList, produtosList, financeiroList, relatoriosList, vendasList,
+           produtosTitle, image;
     
     JComboBox corLista;
     
@@ -49,6 +49,17 @@ public class Principal extends JFrame{
         title.setBounds(20, 10, 120, 30);
         title.setForeground(new java.awt.Color(255, 255, 255));
         title.setFont(new java.awt.Font(fontTitle, 1, 28));
+        
+        screenTitle = new JLabel("Bem-vindo ao Cashier!");
+        screenTitle.setBounds(530, 100, 290, 30);
+        screenTitle.setForeground(new java.awt.Color(143, 144, 146));
+        screenTitle.setFont(new java.awt.Font(fontText, 1, 28));
+        canvas.add(screenTitle);
+        
+        image = new JLabel();
+        image.setBounds(420, 100, 500, 625);
+        image.setIcon(new ImageIcon("undraw_product_iteration_kjok.png"));
+        canvas.add(image);
         
         caixaList = new JLabel("- Caixa");
         caixaList.setBounds(15, 72, 100, 15);
