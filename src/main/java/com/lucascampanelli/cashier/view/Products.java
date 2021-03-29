@@ -11,7 +11,7 @@ import com.lucascampanelli.cashier.controller.ControllerProdutos;
  *
  * @author lucas
  */
-public class Products extends JFrame{
+public final class Products extends JFrame{
     
     JLabel title, screenTitleLabel, caixaList, produtosList, financeiroList, relatoriosList, vendasList,
            produtosTitle;
@@ -26,10 +26,12 @@ public class Products extends JFrame{
     
     JTable produtos;
     
-    JButton exitButton, addButton;
+    JButton exitButton, addButton, deleteButton, updateButton;
     
     String screenTitle, fontTitle, fontText, colorYellowLight,
            colorBlueLight, colorYellowDark, colorBlueDark, colorGray;
+    
+    int selectedId = -1;
     
     ControllerProdutos controlador = new ControllerProdutos();
     
@@ -50,7 +52,7 @@ public class Products extends JFrame{
         setLayout(null);
         
         screenPanel = new JPanel();
-        screenPanel.setBounds(120, 200, 1160, 720);
+        screenPanel.setBounds(120, 200, 1160, 410);
         canvas.add(screenPanel);
         
         screenTitleLabel = new JLabel(screenTitle);
@@ -77,16 +79,7 @@ public class Products extends JFrame{
                 return false;
             }
         };
-        produtos.setModel(controlador.listarProduto());
-        produtos.setBounds(150, 600, 800, 300);
-        produtos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        for(int i = 0; i < 9; i++){
-            if(i == 0)
-                produtos.getColumnModel().getColumn(i).setPreferredWidth(50);
-            else
-                produtos.getColumnModel().getColumn(i).setPreferredWidth(129);
-        }
-        produtos.getTableHeader().setResizingAllowed(false);;
+        carregarTabela();
         screenPanel.add(produtos);
         
         scrollPane = new JScrollPane(produtos);
@@ -210,6 +203,58 @@ public class Products extends JFrame{
             
         });
         
+        deleteButton = new JButton("Excluir");
+        deleteButton.setBounds(1135, 620, 115, 42);
+        deleteButton.setFont(new java.awt.Font(fontText, 1, 17));
+        deleteButton.setBackground(new java.awt.Color(143, 144, 146));
+        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
+        deleteButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        deleteButton.setBorderPainted(false);
+        deleteButton.setFocusPainted(false);
+        deleteButton.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e){
+                int linha = produtos.getSelectedRow();
+                
+                if(linha >= 0){
+                    selectedId = (int) produtos.getValueAt(linha, 0);
+                }
+                
+                if(selectedId >= 0){
+                    int confirm = JOptionPane.showConfirmDialog(null,
+                                    "Tem certeza que deseja remover esse produto?",
+                                    "Excluir",
+                                    JOptionPane.OK_CANCEL_OPTION);
+                    
+                    if(confirm == 0){
+                        if(controlador.excluirProduto(selectedId))
+                            carregarTabela();
+                    }
+                }
+            }
+            
+        });
+        canvas.add(deleteButton);
+        
+        updateButton = new JButton("Atualizar");
+        updateButton.setBounds(1000, 620, 115, 42);
+        updateButton.setFont(new java.awt.Font(fontText, 1, 17));
+        updateButton.setBackground(new java.awt.Color(143, 144, 146));
+        updateButton.setForeground(new java.awt.Color(255, 255, 255));
+        updateButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        updateButton.setBorderPainted(false);
+        updateButton.setFocusPainted(false);
+        updateButton.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e){
+                
+            }
+            
+        });
+        canvas.add(updateButton);
+        
         canvas.add(screenTitleLabel);
         canvas.add(title);
         canvas.add(exitButton);
@@ -227,6 +272,18 @@ public class Products extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
+    }
+    
+    public void carregarTabela(){
+        produtos.setModel(controlador.listarProduto());
+        produtos.setBounds(150, 600, 800, 300);
+        produtos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        produtos.getColumnModel().getColumn(0).setPreferredWidth(50);
+        produtos.getColumnModel().getColumn(2).setPreferredWidth(160);
+        produtos.getColumnModel().getColumn(8).setPreferredWidth(129);
+        produtos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        produtos.getTableHeader().setResizingAllowed(false);
+        produtos.setRowHeight(35);
     }
     
     public static void main(String[] args){

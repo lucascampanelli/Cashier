@@ -57,4 +57,15 @@ public class DaoProdutos{
             return null;
         }
     }
+    
+    public boolean excluirProduto(int cod){
+        try{
+            Connect.getPreparedStatement("delete from produto where cod_produto = "+cod).executeUpdate();
+            return true;
+        }
+        catch(SQLException e){
+            System.out.println("Ocorreu um erro ao excluir o produto. Erro: "+e);
+            return false;
+        }
+    }
 }

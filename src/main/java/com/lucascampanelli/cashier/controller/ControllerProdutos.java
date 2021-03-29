@@ -46,11 +46,16 @@ public class ControllerProdutos {
                 lista.get(i).getPreco(),
                 lista.get(i).getQtdVenda(),
                 lista.get(i).getValVendaTotal(),
-                lista.get(i).getDataEntrada()
+                lista.get(i).getDataEntrada(),
+                "Teste"
             });
         }
         
         return model;
+    }
+    
+    public boolean excluirProduto(int cod){
+        return DAO.excluirProduto(cod);
     }
     
 }
