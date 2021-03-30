@@ -49,6 +49,16 @@ public class ModelProdutos {
         this.preco = preco;
     }
     
+    //Construtor para update da base de dados
+    public ModelProdutos(int cod, String nome, String marca, String codBarras, int quant, double preco){
+        this.cod = cod;
+        this.nome = nome;
+        this.marca = marca;
+        this.codBarras = codBarras;
+        this.quant = quant;
+        this.preco = preco;
+    }
+    
     public String getNome() {
         return nome;
     }

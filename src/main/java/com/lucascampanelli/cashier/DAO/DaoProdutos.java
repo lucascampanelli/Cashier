@@ -58,6 +58,47 @@ public class DaoProdutos{
         }
     }
     
+    public boolean atualizarProduto(ModelProdutos produto){
+        try{
+            if(!(produto.getCodBarras().equals(""))){
+                System.out.println("update produto set "+
+                                                        "nome = '"+produto.getNome()
+                                                        +"', marca = '"+produto.getMarca()
+                                                        +"', preco = "+produto.getPreco()
+                                                        +", quant = '"+produto.getQuant()
+                                                        +"', cod_barras = '"+produto.getCodBarras()
+                                                        +"' where cod_produto = "+produto.getCod());
+                Connect.getPreparedStatement("update produto set "+
+                                                        "nome = '"+produto.getNome()
+                                                        +"', marca = '"+produto.getMarca()
+                                                        +"', preco = "+produto.getPreco()
+                                                        +", quant = '"+produto.getQuant()
+                                                        +"', cod_barras = '"+produto.getCodBarras()
+                                                        +"' where cod_produto = "+produto.getCod())
+                                                                                  .executeUpdate();
+            }
+            else{
+                System.out.println("update produto set "+
+                                                        "nome = '"+produto.getNome()
+                                                        +"', marca = '"+produto.getMarca()
+                                                        +"', preco = "+produto.getPreco()
+                                                        +", quant = '"+produto.getQuant()
+                                                        +"' where cod_produto = "+produto.getCod());
+                Connect.getPreparedStatement("update produto set "+
+                                                        "nome = '"+produto.getNome()
+                                                        +"', marca = '"+produto.getMarca()
+                                                        +"', preco = "+produto.getPreco()
+                                                        +", quant = '"+produto.getQuant()
+                                                        +"' where cod_produto = "+produto.getCod())
+                                                                                  .executeUpdate();
+            }
+            
+            return true;
+        }catch(SQLException e){
+            return false;
+        }
+    }
+    
     public boolean excluirProduto(int cod){
         try{
             Connect.getPreparedStatement("delete from produto where cod_produto = "+cod).executeUpdate();

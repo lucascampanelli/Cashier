@@ -54,6 +54,11 @@ public class ControllerProdutos {
         return model;
     }
     
+    public boolean atualizarProduto(int cod, String nome, String marca, String codBarras, int quant, double preco){
+        ModelProdutos produto = new ModelProdutos(cod, nome, marca, codBarras, quant, preco);
+        return DAO.atualizarProduto(produto);
+    }
+    
     public boolean excluirProduto(int cod){
         return DAO.excluirProduto(cod);
     }
