@@ -38,6 +38,16 @@ public final class Products extends JFrame{
     
     ControllerProdutos controlador = new ControllerProdutos();
     
+    String[] colunas = {
+        "Código",
+        "Nome",
+        "Marca",
+        "Val. Unit.",
+        "Quantidade"
+    };
+    
+    String[][] dados;
+    
     public Products(){
         super("Produtos - Cashier");
         
@@ -76,7 +86,7 @@ public final class Products extends JFrame{
         title.setForeground(new java.awt.Color(255, 255, 255));
         title.setFont(new java.awt.Font(fontTitle, 1, 28));
         
-        produtos = new JTable(){
+        produtos = new JTable(dados, colunas){
             @Override
             public boolean isCellEditable(int row, int column){
                 return false;

@@ -58,6 +58,32 @@ public class DaoProdutos{
         }
     }
     
+    public ArrayList<ModelProdutos> listarProduto(String query){
+        ArrayList<ModelProdutos> listaProdutos = new ArrayList<>();
+        try{
+            ResultSet resultado = Connect.getPreparedStatement(query).executeQuery();
+            while(resultado.next()){
+                ModelProdutos modelProdutos = new ModelProdutos(
+                                        resultado.getString("nome"),
+                                        resultado.getString("marca"),
+                                        resultado.getString("cod_barras"),
+                                        resultado.getInt("quant"),
+                                        resultado.getDouble("preco"),
+                                        resultado.getInt("cod_produto"),
+                                        resultado.getInt("qnt_vend"),
+                                        resultado.getDouble("val_vend_tot"),
+                                        resultado.getString("data_ent")
+                );
+                listaProdutos.add(modelProdutos);
+            }
+            return listaProdutos;
+        }
+        catch(SQLException e){
+            System.out.println("Ocorreu um erro ao buscar os dados. Erro: "+e);
+            return null;
+        }
+    }
+    
     public boolean atualizarProduto(ModelProdutos produto){
         try{
             if(!(produto.getCodBarras().equals(""))){
@@ -109,4 +135,5 @@ public class DaoProdutos{
             return false;
         }
     }
+    
 }

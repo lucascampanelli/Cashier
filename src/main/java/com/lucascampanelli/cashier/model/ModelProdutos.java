@@ -59,6 +59,10 @@ public class ModelProdutos {
         this.preco = preco;
     }
     
+    //Construtor para inserção posterior
+    public ModelProdutos(){
+    }
+    
     public String getNome() {
         return nome;
     }
